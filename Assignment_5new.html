@@ -1,0 +1,93 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title> My First Canvas </title>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="1450" height="1700" style="z-index: -1;">
+    </canvas>
+    <canvas id="myCanvasCir" width="800" height="800" style="position:absolute; left:35%; top:20%;background-color:white;border-radius:50%">
+    </canvas>
+</body>
+<script>
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    function drawCanvas() {
+        //ctx.clearRect(0,0,1450,1700);
+        var baseX = 0;
+        var baseY = 0;
+        var w1 = 80;
+        var h1 = 18;
+        for (var i = 0; i < 20; i++) {
+            for (var j = 0; j < 150; j++) {
+                var x = baseX + w1 * i,
+                    y = baseY + h1 * j;
+                // ctx.strokeRect(x, y, w1, h1); To provide borders
+                if ((i + j) % 2 != 0) {
+                    ctx.fillRect(x, y, w1, h1);
+                }
+            }
+        }
+        ctx.save();
+    }
+
+
+    var c2 = document.getElementById("myCanvasCir");
+    var ctxcirc = c2.getContext("2d");
+    function drawCircle(x1,y1) {
+        ctxcirc.clearRect(0,0,800,800);
+        var baseX = x1;
+        var baseY = y1;
+        var w2 = 50;
+        var h2 = 90;
+        for (var i = 0; i < 160; i++) {
+            for (var j = 0; j < 190; j++) {
+                var x = baseX + w2 * i,
+                    y = baseY + h2 * j;
+                 //ctxcirc.strokeRect(x, y, w2, h2); //To provide borders
+                if ((i + j) % 2 != 0) {
+                    ctxcirc.fillRect(x, y, w2, h2);
+                }
+            }
+        }
+        ctxcirc.translate(400,400);
+        ctxcirc.rotate(y1*3.14/180);
+        ctxcirc.translate(-400,-400);
+    }
+
+if (window.DeviceMotionEvent) {
+    window.addEventListener("deviceorientation", motion, false);
+}
+
+function motion(event) {
+  gx = event.beta;
+  gy = event.gamma;
+  if (gx >  90) { gx =  90};
+  if (gx < -90) { gx = -90};
+  drawCircle(gx * 1.5,gy * 1.5);
+}
+
+// calculating time for console
+
+let start = new Date().getTime();
+window.addEventListener('load', (event) => {
+    let loading = new Date().getTime() - start;
+    console.log("Loading time is: " + loading + " milliseconds");
+});
+document.addEventListener('readystatechange', (event) => {
+    let loading = new Date().getTime() - start;
+    console.log("State change: " + loading + " milliseconds");
+});
+document.addEventListener('DOMContentLoaded', (event) => {
+    let loading = new Date().getTime() - start;
+    console.log("DOM Content Loaded : " + loading + " milliseconds");
+});
+
+drawCanvas();
+drawCircle();
+</script>
+</html
